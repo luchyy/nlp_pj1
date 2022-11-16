@@ -286,3 +286,30 @@ for step, test_batch in tqdm(enumerate(test_data_iter)):
         preds.extend(pred)
 
 print(preds)
+
+# 将预测结果写入文件
+with open('testResult.txt', encoding='utf-8', mode='w') as f:
+    for pred in preds:
+        f.write('positive' if pred == 1 else 'negative')
+        f.write('\n')
+
+# 将验证集的预测结果写入文件
+preds = preds = []
+dev_data_iter = DataLoader(dev_set, batch_size=32, shuffle=False, num_workers=4, collate_fn=custom_collate)
+
+for step, valid_batch in tqdm(enumerate(dev_data_iter)):
+    model.eval()
+    x, y = valid_batch
+    with torch.no_grad():
+        loss, pred = model(x.to(device), y.to(device))
+        pred = pred.detach().cpu().numpy().tolist()
+        preds.extend(pred)
+
+print(preds)
+
+
+with open('validResult.txt', encoding='utf-8', mode='w') as f:
+    for pred in preds:
+        f.write('positive' if pred == 1 else 'negative')
+        f.write('\n')
+
