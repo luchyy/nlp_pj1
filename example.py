@@ -212,9 +212,11 @@ print("Gradients of the second batch of data")
 print(model.out.weight.grad[0][:10])
 
 # Update with the cumulated gradient
-optimizer.step()
+optimizer.step()#这里的step相当于把上面两次计算出的梯度叠加做的step
 model.zero_grad()
 print(model.out.weight.grad[0][:10])
+
+
 
 # 下面是一次完整的训练流程
     # import os
